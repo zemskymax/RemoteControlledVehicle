@@ -9,7 +9,7 @@ exports.create_game = function(req, res, next) {
     if (!user_id || typeof(user_id) !== 'object' || 
         !game_name || typeof(game_name) !== 'object') {
         r.msg.push('create_game - please supply all the needed information.');
-        onsole.log('create_game - please supply all the needed information.');
+        console.log('create_game - please supply all the needed information.');
 		return res.json(r);
     }
     

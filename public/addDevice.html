@@ -97,6 +97,8 @@
 	</head>
 
 	<body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="js/addDevice.js"></script>
 
 		<div>
 		  		  
@@ -106,7 +108,7 @@
 			</tr>
 			<tr>
                 <td>Device Type</td>
-                <td rowspan="2" class="a" height="100%"><a id="add_device">+</a></td>
+                <td rowspan="2" class="a" height="100%"><a id="add_device" onClick="postData()">+</a></td>
 			</tr>
 			<tr>				
 				<td><input id="device_type" type="text"></td> 
@@ -118,7 +120,6 @@
 			
 		</div>
 
-		<script src="js/addDevice.js"></script>
 	</body>
 
 </html>
