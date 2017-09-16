@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+	  <title>SUBReal</title>
+	  <style>
+            body > div {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+			
+			table, tr, td {
+				border-spacing: 10px;
+			}
+			table#table01 {
+				width: 400px;
+			}
+			table#table01 td {
+				background-color: white;
+				color: #00cccc;
+				width: 400px;
+			}
+			table#table01 input {
+				border: 1px solid #798490;
+				border-radius: 3px;
+				width: 100%;
+				background-color: white;
+				color: black;
+			}
+			table#table01 input:hover {
+				border: 1px solid #939ca6;
+				border-radius: 3px;
+				width: 100%;
+				background-color: white;
+				color: black;
+			}
+			table#table01 input:focus {
+				border: 1px solid #939ca6;
+				border-radius: 3px;
+				width: 100%;
+				background-color: white;
+				color: black;
+			}
+			
+			table#table01 a {
+				display:block;
+				overflow:auto;
+				text-align: center;
+				text-decoration: none;
+				background-color: white;
+				color: #00cccc;
+				margin-top: 20px;
+			}
+			table#table01 a:hover {
+				background-color: #00cccc;
+				color: white;
+			}
+			table#table01 a:active {
+				background-color: #00cccc;
+				color: #939ca6;
+			}
+			table#table01 th {
+				 font-weight: normal;
+				 font-size: 25px;
+				 padding-bottom: 40px;
+				 color: #939ca6;
+			}
+        </style>
+	</head>
+
+	<body>
+
+		<div>
+		  		  
+		  <table id="table01" cellspacing="10">
+			<tr >
+				<th>Create a Room</sup> </td>
+			</tr>
+			<tr>
+				<td>Room Name</td>
+			</tr>
+			<tr>				
+				<td><input id="room_name" type="text" name="RoomName"></td> 
+			</tr>
+			<tr>
+				<td>User Name</td>
+			</tr>
+			<tr>				
+				<td><input id="user_name" type="text" name="UserName"></td> 
+			</tr>
+			<tr>
+				<td><a id="create_room">GO</a></td>
+			</tr>
+			</table>
+			
+		</div>
+
+		<script src="js/create.js"></script>
+	</body>
+
+</html>

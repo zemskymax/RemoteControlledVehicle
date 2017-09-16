@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+	  <title>SUBReal</title>
+	  <style>
+            body > div {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+			
+			table, tr, td {
+				border-spacing: 10px;
+			}
+			table#table01 {
+				width: 400px;
+			}
+            table#table01 th {
+				 font-weight: normal;
+				 font-size: 25px;
+				 padding-bottom: 40px;
+				 color: #939ca6;
+			}
+			table#table01 td {
+				background-color: white;
+				color: #00cccc;
+			}
+			table#table01 input {
+				border: 1px solid #798490;
+				border-radius: 3px;
+				width: 100%;
+				background-color: white;
+				color: black;
+			}
+			table#table01 input:hover {
+				border: 1px solid #939ca6;
+				border-radius: 3px;
+				width: 100%;
+				background-color: white;
+				color: black;
+			}
+			table#table01 input:focus {
+				border: 1px solid #939ca6;
+				border-radius: 3px;
+				width: 100%;
+				background-color: white;
+				color: black;
+			}	
+			table#table01 a#start_game {
+				display:block;
+				overflow:auto;
+				text-align: center;
+				text-decoration: none;
+				background-color: white;
+				color: #00cccc;
+				margin-top: 20px;
+			}
+			table#table01 a#start_game:hover {
+				background-color: #00cccc;
+				color: white;
+			}
+			table#table01 a#start_game:active {
+				background-color: #00cccc;
+				color: #939ca6;
+			}
+            table#table01 a#add_device {
+                border: 1px solid #00cccc;
+                border-radius: 1px;
+                display:block;
+				overflow:auto;
+				text-align: center;
+				text-decoration: none;
+				background-color: white;
+				color: #00cccc;
+				margin-top: 29px;
+			}
+            table#table01 a#add_device:hover {
+                border: 1px solid #939ca6;
+				background-color: #00cccc;
+				color: white;
+			}
+			table#table01 a#add_device:active {
+				background-color: #00cccc;
+				color: #939ca6;
+			}
+            a.disabled {
+                pointer-events: none;
+            }
+        </style>
+	</head>
+
+	<body>
+
+		<div>
+		  		  
+		  <table id="table01" cellspacing="10">
+			<tr>
+				<th colspan="2">Add a Device</sup> </td>
+			</tr>
+			<tr>
+                <td>Device Type</td>
+                <td rowspan="2" class="a" height="100%"><a id="add_device">+</a></td>
+			</tr>
+			<tr>				
+				<td><input id="device_type" type="text"></td> 
+			</tr>
+            <tr>
+				<td colspan="2"><a id="start_game">BEGIN</a></td>
+			</tr>
+			</table>
+			
+		</div>
+
+		<script src="js/addDevice.js"></script>
+	</body>
+
+</html>
