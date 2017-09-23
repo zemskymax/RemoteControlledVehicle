@@ -10,9 +10,12 @@ var http = require('http').Server(app);
 socket.init(http);
 
 app.use(express.static(process.cwd() + '/public'));
-app.use(bodyParser({limit: '50mb'}));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json({ limit: '50mb' }));
+
+// for parsing application/json
+app.use(bodyParser.json());
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -66,9 +69,10 @@ app.get('/*', function(req, res)
 
 //game 
 app.post('/game/createGame', controllers.gameController.create_game);
+app.post('/game/getAllGames', controllers.gameController.get_all_games);
 
 //device
-app.post('/device/connectDevice', controllers.deviceController.connectDevice);
+app.post('/device/connectDevice', controllers.deviceController.connect_device);
 
 //user
 app.post('/user/register', controllers.usersController.register_user);

@@ -1,0 +1,33 @@
+{
+	"development":{
+		"dev":true,
+		"db":{
+			"_comment": {
+				
+			},
+	    	"mongoUrl":"mongodb://sharestate_app:sharestate_app_1@ds151127.mlab.com:51127/sharestate",
+			"options" : {
+		    "db": { "native_parser" : true },
+			    "server": {
+			      "poolSize": 20,
+			      "auto_reconnect":true,
+			      "socketOptions":{ "keepAlive" : 1, "connectTimeoutMS" : 30000 }
+				}	
+	  		}	
+	    }
+	},
+	"production":{
+		"prod":true,
+		"db":{
+			"mongoUrl":"mongodb://sharestate_app:sharestate_app_1@ds151127.mlab.com:51127/sharestate",
+			"options" : {
+		    "db": { "native_parser" : true },
+			    "server": {
+			      "poolSize": 20,
+			      "auto_reconnect":true,
+			      "socketOptions":{ "keepAlive" : 1, "connectTimeoutMS" : 30000 }
+				}	
+	  		}	
+	    }
+	}
+}

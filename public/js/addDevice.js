@@ -4,7 +4,6 @@ window.onload = function() {
     
     var add_device_button = document.getElementById("add_device");
     add_device_button.onclick = function () {
-        start_game_button.disabled = false;
         add_device_button.disabled = true;
 
         console.log("start_game_button onclick");
@@ -12,26 +11,31 @@ window.onload = function() {
         localStorage.device_type = device_type_text.value;
 
         var dataToSend = {
-            device_type: device_type,
-            room_id: localStorage.room_id,
-            user_name: localStorage.user_name
+            "device_type" : localStorage.device_type,
+            "room_id" : localStorage.room_id,
+            "user_name" : localStorage.user_name
         };
 
-        console.log("data to send: " + dataToSend);
+        console.log("device_type: " + dataToSend.device_type);
+        console.log("room_id: " + dataToSend.room_id);
+        console.log("user_name: " + dataToSend.user_name);
 
         //send data to server 
-        //$.post('https://powerful-shore-11597.herokuapp.com/game/createGame', 
         $.ajax({
-            url : 'https://powerful-shore-11597.herokuapp.com/device/connectDevice',
             type: 'POST',
+             //url : 'https://powerful-shore-11597.herokuapp.com/device/connectDevice',
+            url : 'http://localhost:5000/device/connectDevice',
             dataType: 'json',
             data: dataToSend,
-            cache : false,
-            processData: false
-        }).done(function(data, status){
-            alert("Status: " + status);
+            cache: false     
+        }).done(function(result) {
+            console.log("result: " + result);
+            if (result.status == 1) {
+                start_game_button.disabled = false;                
+            }
+        }).fail( function(xhr, textStatus, errorThrown) {
+            console.log(xhr.responseText);
         });
-        
     }
 
     var start_game_button = document.getElementById("start_game");

@@ -53,23 +53,6 @@
 				background-color: white;
 				color: black;
 			}	
-			table#table01 a#start_game {
-				display:block;
-				overflow:auto;
-				text-align: center;
-				text-decoration: none;
-				background-color: white;
-				color: #00cccc;
-				margin-top: 20px;
-			}
-			table#table01 a#start_game:hover {
-				background-color: #00cccc;
-				color: white;
-			}
-			table#table01 a#start_game:active {
-				background-color: #00cccc;
-				color: #939ca6;
-			}
             table#table01 a#add_device {
                 border: 1px solid #00cccc;
                 border-radius: 1px;
@@ -90,31 +73,69 @@
 				background-color: #00cccc;
 				color: #939ca6;
 			}
-            a.disabled {
-                pointer-events: none;
-            }
+
+			button {
+				display: block;
+				width: 100%;
+				font-size: 15px;				
+				margin-top: 29px;
+				padding: 0;
+				appearance: none;
+				box-shadow: none;
+				border-radius: 0;
+			}
+
+			button:focus {
+				outline: none
+			}
+
+			button#start_game:enabled {
+				color: #00cccc;
+				background-color: white;
+				border: none;
+			}
+
+			button#start_game:disabled {
+				color: #939ca6;
+				background-color: white;
+				border: none;
+			}
+
+			button#start_game:hover:enabled,
+			button#start_game.hover:enabled {
+				color: white;
+				background-color: #00cccc;
+			}
+
+			button#start_game:active:enabled,
+			button#start_game.active:enabled {
+				color: #939ca6;
+				background-color: #00cccc;
+			}
         </style>
 	</head>
 
 	<body>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="js/addDevice.js"></script>
+        <script language="javascript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="js/addDevice.js"></script>
 
 		<div>
 		  		  
 		  <table id="table01" cellspacing="10">
 			<tr>
-				<th colspan="2">Add a Device</sup> </td>
+				<th colspan="2">ADD A DEVICE</sup> </td>
 			</tr>
 			<tr>
-                <td>Device Type</td>
+                <td>DEVICE TYPE</td>
                 <td rowspan="2" class="a" height="100%"><a id="add_device" onClick="postData()">+</a></td>
 			</tr>
 			<tr>				
 				<td><input id="device_type" type="text"></td> 
 			</tr>
             <tr>
-				<td colspan="2"><a id="start_game">BEGIN</a></td>
+				<td>
+					<button id="start_game" class="flat">START THE GAME</button>
+				</td>
 			</tr>
 			</table>
 			

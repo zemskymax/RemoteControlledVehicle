@@ -29,3 +29,11 @@ exports.create_game = function(req, res, next) {
 		return res.json(result)
 	});
 };
+
+exports.get_all_games = function (req, res) {
+	
+		var r = { msg: [], status: 0 };
+		console.log('--get_all_games--');
+	
+
+};
