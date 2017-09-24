@@ -3,7 +3,7 @@ var util = require('util');
 exports.connect_device = function (req, res) {
 
 	var r = { msg: [], status: 0 };
-	console.log('--connectDevice--');
+	console.log('--connect_device--');
 
 	var data = req.body;
 	util.log("data: " + util.inspect(data));
@@ -17,16 +17,18 @@ exports.connect_device = function (req, res) {
 	console.log('user_name: ' + user_name);
 
     if (!room_id || !device_type || !user_name) {
-		console.log('create_game - please supply all the needed information.');
+		console.log('connect_device - please supply all the needed information.');
 
-        r.msg.push('create_game - please supply all the needed information.');		
+        r.msg.push('connect_device - please supply all the needed information.');		
 		return res.json(r);
 	}
 	else {
-		console.log('create_game - the data was correctly supplied.');
+		console.log('connect_device - the data was correctly supplied.');
 
 		r.status = 1;
-		r.msg.push('create_game - the data was correctly supplied.');
+		r.msg.push('connect_device - the data was correctly supplied.');
 		return res.json(r); 
 	}
+
+	
 };

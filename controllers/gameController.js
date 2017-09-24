@@ -50,38 +50,70 @@ exports.create_game = function(req, res, next) {
 };
 
 exports.start_game = function (req, res) {
-	
     var r = { msg: [], status: 0 };
     console.log('--start_game--');
 
     var game_id = req.body.game_id;
+    var user_id = req.body.user_id;
 
     if (!game_id) {
         console.log('start_game - please supply all the needed information.');
-
         r.msg.push('start_game - please supply all the needed information.');        
 		return res.json(r);
     }
     
     var query = {
-		id: game_id
+        id: game_id,
+        ownerId: user_id
     };
     
     var update = {
         active: true
     };
 
-    Game.update(game_id, function(result) {
-        if (!result.status) {
-            console.log("start_game - games failed to start.");
-            return res.status(404).json("start_game - games failed to start.")
+    Game.update(query, update, function(err) {
+        if (err) {
+            console.log("start_game - games failed to start, err:" + err);
+            r.msg.push("start_game - games failed to start, err:" + err);        
+            return res.json(r);            
         }
 
         console.log("start_game - game was successfully started.");
-
         r.msg.push("start_game - game was successfully started.");
         r.status = 1;
-        return res.json(result);
+        return res.json(r);
+    });
+};
+
+exports.get_game_devices = function (req, res) {
+	
+    var r = { msg: [], status: 0 };
+    console.log('--get_game_devices--');
+
+    var game_id = req.body.game_id;
+
+    if (!game_id) {
+        console.log('get_game_devices - please supply all the needed information.');
+        r.msg.push('get_game_devices - please supply all the needed information.');        
+		return res.json(r);
+    }
+
+    var query = {
+		id: game_id
+    };
+
+    Game.findOne(query, function (err, game) {
+        if (err) {
+            console.log("get_game_devices - fetching game devices failed, err:" + err);
+            r.msg.push("get_game_devices - fetching game devices failed, err:" + err);        
+            return res.json(r);            
+        }
+
+        console.log("get_game_devices - fetching game devices was successfully started.");
+        r.msg.push("get_game_devices - fetching game devices was successfully started.");
+        r.status = 1;
+        r.devices = game.devices;
+        return res.json(r);
     });
 };
 
@@ -107,6 +139,6 @@ exports.get_all_games = function (req, res) {
         r.msg.push("get_all_games - started games were successfully found.");
         r.status = 1;
         r.games = docs;
-        return callback(r);
+        return res.json(r);
     });
 };

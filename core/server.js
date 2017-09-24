@@ -69,8 +69,9 @@ app.get('/*', function(req, res)
 
 //game 
 app.post('/game/createGame', controllers.gameController.create_game);
-app.post('/game/getAllGames', controllers.gameController.get_all_games);
 app.post('/game/startGame', controllers.gameController.start_game);
+app.post('/game/getGameDevices', controllers.gameController.get_game_devices);
+app.post('/game/getAllGames', controllers.gameController.get_all_games);
 
 //device
 app.post('/device/connectDevice', controllers.deviceController.connect_device);

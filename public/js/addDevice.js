@@ -43,6 +43,14 @@ window.onload = function() {
     start_game_button.onclick = function () {
         console.log("start_game_button onclick");
         
+        var dataToSend = {
+            "game_id" : localStorage.room_id,
+            "user_id" : localStorage.user_name
+        };
+
+        console.log("room_id: " + dataToSend.room_id);
+        console.log("user_id: " + dataToSend.user_name);
+
         //send data to server 
         $.ajax({
             type: 'POST',
@@ -54,7 +62,8 @@ window.onload = function() {
         }).done(function(result) {
             console.log("result: " + result);
             if (result.status == 1) {
-                start_game_button.disabled = false;                
+                //Start hosting
+                console.log("~~~Start Hosting~~~");               
             }
         }).fail( function(xhr, textStatus, errorThrown) {
             console.log(xhr.responseText);

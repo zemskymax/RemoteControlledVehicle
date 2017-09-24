@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <title>SUBReal</title>
+	  <style>
+            body > div {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .game_container {
+                margin: 0;
+            }
+
+            .game_link {
+                border: 1px solid #00cccc;
+                border-radius: 1px;
+                display:block;
+				overflow:auto;
+				text-align: center;
+				text-decoration: none;
+				background-color: white;
+				color: #00cccc;
+				margin-top: 29px;
+			}
+            game_link:hover {
+                border: 1px solid #939ca6;
+				background-color: #00cccc;
+				color: white;
+			}
+			game_link:active {
+				background-color: #00cccc;
+				color: #939ca6;
+			}
+        </style>
+    </head>
+    <body>
+        <script language="javascript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script language="javascript" type="text/javascript" src="js/show_game_devices.js"></script>
+
+        <div id="devices_container">
+
+        </div>
+    </body>
+</html> 

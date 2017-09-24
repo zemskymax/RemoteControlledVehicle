@@ -31,10 +31,6 @@ window.onload = function() {
     function createRoom() {
         
         if(typeof(Storage) !== "undefined") {
-            //create id for the room
-            //var room_id = uuidv4();
-
-            //saveRoomIdLocally(room_id);
             saveRoomNameLocally(room_name_text.value);
             saveUserNameLocally(user_name_text.value);
 
@@ -61,7 +57,9 @@ window.onload = function() {
                     //go to the Add Devices" page
                     location.href = 'addDevice.html';               
                 }
+
                 console.log("room_id: " + result.game_id);
+                saveRoomIdLocally( result.game_id);
             }).fail( function(xhr, textStatus, errorThrown) {
                 console.log(xhr.responseText);
             });
