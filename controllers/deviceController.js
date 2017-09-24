@@ -1,4 +1,4 @@
-var util = require('util')
+var util = require('util');
 
 exports.connect_device = function (req, res) {
 

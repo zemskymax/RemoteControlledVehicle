@@ -29,7 +29,7 @@ app.set('port', port);
 app.locals.name = 'DroneController';
 
 //get all the controllers in the controllers folder
-console.log("loading controllers")
+console.log("loading controllers");
 var controllers = { }, controllers_path = process.cwd() + '/controllers';
 fs.readdirSync(controllers_path).forEach(function (file) 
 {
@@ -64,12 +64,13 @@ app.get('/', function(req,res,next)
 app.get('/*', function(req, res) 
 {
     console.log('page not found, url: ', req.url);
-    res.json({msg:['page not allowed '+ app.locals.name]});
+    res.json({ msg: ['page not allowed ' + app.locals.name] });
 });
 
 //game 
 app.post('/game/createGame', controllers.gameController.create_game);
 app.post('/game/getAllGames', controllers.gameController.get_all_games);
+app.post('/game/startGame', controllers.gameController.start_game);
 
 //device
 app.post('/device/connectDevice', controllers.deviceController.connect_device);

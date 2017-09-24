@@ -1,15 +1,20 @@
 var uuid = require('uuid');
+var util = require('util');
 
 exports.create_game = function(req, res, next) {
 
     var r = { msg: [], status: 0 };
+    console.log('--create_game--');
+
+    //util.log("body: " + util.inspect(req.body));
+
     var user_id = req.body.user_id;
     var game_name = req.body.game_name;
 
-    if (!user_id || typeof(user_id) !== 'object' || 
-        !game_name || typeof(game_name) !== 'object') {
-        r.msg.push('create_game - please supply all the needed information.');
+    if (!user_id || !game_name) {
         console.log('create_game - please supply all the needed information.');
+
+        r.msg.push('create_game - please supply all the needed information.');        
 		return res.json(r);
     }
     
@@ -20,20 +25,88 @@ exports.create_game = function(req, res, next) {
     console.log("create_game - game name: ", game_name);
     console.log("create_game - game id: ", game_id);
 
-    Game.create_game(user_id, game_name, game_id, function(result) {
+    //crete new game
+    var newGame = new Game({ 
+        id: game_id,
+        name: game_name,
+        ownerId: user_id   
+    });
 
-		if (!result.status) {
-			res.status(404).send("create_game - game creation failed");
+    console.log('create_game - game object was created.');
+    
+    newGame.save( function(err) {
+        if (err) {
+            console.log('create_game - game creation failed, err: ' + err); 
+            r.msg.push('create_game - game creation failed, err: ' + err);   
+            return res.json(r);
         }
-        
-		return res.json(result)
+
+        console.log('create_game - game was successfully created.');    
+        r.msg.push("create_game - game was successfully created.");
+        r.status = 1;
+        r.game_id = game_id;
+		return res.json(r);
 	});
+};
+
+exports.start_game = function (req, res) {
+	
+    var r = { msg: [], status: 0 };
+    console.log('--start_game--');
+
+    var game_id = req.body.game_id;
+
+    if (!game_id) {
+        console.log('start_game - please supply all the needed information.');
+
+        r.msg.push('start_game - please supply all the needed information.');        
+		return res.json(r);
+    }
+    
+    var query = {
+		id: game_id
+    };
+    
+    var update = {
+        active: true
+    };
+
+    Game.update(game_id, function(result) {
+        if (!result.status) {
+            console.log("start_game - games failed to start.");
+            return res.status(404).json("start_game - games failed to start.")
+        }
+
+        console.log("start_game - game was successfully started.");
+
+        r.msg.push("start_game - game was successfully started.");
+        r.status = 1;
+        return res.json(result);
+    });
 };
 
 exports.get_all_games = function (req, res) {
 	
-		var r = { msg: [], status: 0 };
-		console.log('--get_all_games--');
-	
+    var r = { msg: [], status: 0 };
+    console.log('--get_all_games--');
 
+    var query = {
+		active: true
+	};
+	
+	Game.find(query, function(err, docs) {
+        if (err) {
+            console.log("get_all_games - failed, error: ", err);
+
+            r.msg.push("get_all_games - failed, error: ", err);
+            return callback(r);
+        }
+
+        console.log("get_all_games - started games were successfully found.");
+        
+        r.msg.push("get_all_games - started games were successfully found.");
+        r.status = 1;
+        r.games = docs;
+        return callback(r);
+    });
 };

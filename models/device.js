@@ -5,3 +5,6 @@ var deviceSchema = new Schema({
 	id : { type: String , unique: true , required: true},
 
     });
+
+//TODo...
+Device = mongoose.model('devices', deviceSchema);

@@ -41,7 +41,23 @@ window.onload = function() {
     var start_game_button = document.getElementById("start_game");
     start_game_button.disabled = true;
     start_game_button.onclick = function () {
-        
         console.log("start_game_button onclick");
+        
+        //send data to server 
+        $.ajax({
+            type: 'POST',
+                //url : 'https://powerful-shore-11597.herokuapp.com/game/startGame',
+            url : 'http://localhost:5000/game/startGame',
+            dataType: 'json',
+            data: dataToSend,
+            cache: false     
+        }).done(function(result) {
+            console.log("result: " + result);
+            if (result.status == 1) {
+                start_game_button.disabled = false;                
+            }
+        }).fail( function(xhr, textStatus, errorThrown) {
+            console.log(xhr.responseText);
+        });
     }
 }

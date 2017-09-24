@@ -32,14 +32,40 @@ window.onload = function() {
         
         if(typeof(Storage) !== "undefined") {
             //create id for the room
-            var room_id = uuidv4();
-            saveRoomIdLocally(room_id);
+            //var room_id = uuidv4();
 
+            //saveRoomIdLocally(room_id);
             saveRoomNameLocally(room_name_text.value);
             saveUserNameLocally(user_name_text.value);
 
-            //go to the Add Devices" page
-            location.href = 'addDevice.html';
+            //TODo...
+            var dataToSend = {
+                "game_name" : room_name_text.value,
+                "user_id" : user_name_text.value
+            };
+
+            console.log("game_name: " + dataToSend.game_name);
+            console.log("user_id: " + dataToSend.user_id);
+
+            //send data to the server 
+            $.ajax({
+                type: 'POST',
+                //url : 'https://powerful-shore-11597.herokuapp.com/game/createGame',
+                url : 'http://localhost:5000/game/createGame',
+                dataType: 'json',
+                data: dataToSend,
+                cache: false     
+            }).done(function(result) {
+                console.log("result: " + result);
+                if (result.status == 1) {
+                    //go to the Add Devices" page
+                    location.href = 'addDevice.html';               
+                }
+                console.log("room_id: " + result.game_id);
+            }).fail( function(xhr, textStatus, errorThrown) {
+                console.log(xhr.responseText);
+            });
+
         } else {
             console.log("Your browser does not support web storage!");
         }

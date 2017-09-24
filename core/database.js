@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
     fs = require('fs'),
     models_path = process.cwd() + '/models';
-
+databaseConfig = require(process.cwd() + '/config/databaseConfig.js');
+    
 
 //load all the models
 fs.readdirSync(models_path).forEach(function (file) {
@@ -10,7 +11,7 @@ fs.readdirSync(models_path).forEach(function (file) {
     }
 });
 
-mongoose.connect(config.db.mongoUrl, config.db.options);
+mongoose.connect(databaseConfig.db.mongoUrl, databaseConfig.db.options);
 var db = mongoose.connection;
 
 db.on('error', function (err) {
@@ -23,7 +24,7 @@ db.once('open', function callback() {
 
 db.on('disconnected', function() {
     console.error('MongoDB disconnected!');
-    mongoose.connect(config.db.mongoUrl, config.db.options);
+    mongoose.connect(databaseConfig.db.mongoUrl, databaseConfig.db.options);
 });
 
 db.on('reconnected', function () {
