@@ -1,3 +1,10 @@
+
+function CreateSocket() {
+
+    var socket = io();
+    
+}
+
 window.onload = function() {
     
     var device_type_text = document.getElementById("device_type");
@@ -6,19 +13,19 @@ window.onload = function() {
     add_device_button.onclick = function () {
         add_device_button.disabled = true;
 
-        console.log("start_game_button onclick");
+        console.log("add_device_button onclick");
         
         localStorage.device_type = device_type_text.value;
 
         var dataToSend = {
             "device_type" : localStorage.device_type,
-            "room_id" : localStorage.room_id,
-            "user_name" : localStorage.user_name
+            "game_id" : localStorage.game_id,
+            "user_id" : localStorage.user_id
         };
 
         console.log("device_type: " + dataToSend.device_type);
-        console.log("room_id: " + dataToSend.room_id);
-        console.log("user_name: " + dataToSend.user_name);
+        console.log("game_id: " + dataToSend.game_id);
+        console.log("user_id: " + dataToSend.user_id);
 
         //send data to server 
         $.ajax({
@@ -31,7 +38,7 @@ window.onload = function() {
         }).done(function(result) {
             console.log("result: " + result);
             if (result.status == 1) {
-                start_game_button.disabled = false;                
+                start_game_button.disabled = false;              
             }
         }).fail( function(xhr, textStatus, errorThrown) {
             console.log(xhr.responseText);
@@ -44,12 +51,12 @@ window.onload = function() {
         console.log("start_game_button onclick");
         
         var dataToSend = {
-            "game_id" : localStorage.room_id,
-            "user_id" : localStorage.user_name
+            "game_id" : localStorage.game_id,
+            "user_id" : localStorage.user_id
         };
 
-        console.log("room_id: " + dataToSend.room_id);
-        console.log("user_id: " + dataToSend.user_name);
+        console.log("game_id: " + dataToSend.game_id);
+        console.log("user_id: " + dataToSend.user_id);
 
         //send data to server 
         $.ajax({
@@ -63,7 +70,9 @@ window.onload = function() {
             console.log("result: " + result);
             if (result.status == 1) {
                 //Start hosting
-                console.log("~~~Start Hosting~~~");               
+                console.log("~~~Start Hosting~~~");  
+
+                window.open('game.html', '_blank');
             }
         }).fail( function(xhr, textStatus, errorThrown) {
             console.log(xhr.responseText);

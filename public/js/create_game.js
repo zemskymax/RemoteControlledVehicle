@@ -5,39 +5,37 @@ function uuidv4() {
     );
 }
 
-function saveRoomIdLocally(room_id) {
-    localStorage.room_id = room_id;
-    console.log("Room ID was saved: ", room_id);
+function saveGameIdLocally(game_id) {
+    localStorage.game_id = game_id;
+    console.log("Game ID was saved: ", game_id);
 }
 
-function saveRoomNameLocally(room_name) {
-    localStorage.room_name = room_name;
-    console.log("Room name was saved: ", room_name);
+function saveGameNameLocally(game_name) {
+    localStorage.game_name = game_name;
+    console.log("Game name was saved: ", game_name);
 }
 
-function saveUserNameLocally(user_name) {   
-    localStorage.user_name = user_name;
-    console.log("User name was saved: ", user_name);
+function saveUserIdLocally(user_id) {   
+    localStorage.user_id = user_id;
+    console.log("User ID was saved: ", user_id);
 }
 
 window.onload = function() {
     
-    var room_name_text = document.getElementById("room_name");
-    var user_name_text = document.getElementById("user_name");
+    var game_name_text = document.getElementById("game_name");
+    var user_id_text = document.getElementById("user_id");
     
-    var create_room_link = document.getElementById("create_room");
-    create_room_link.onclick = createRoom;
-    
-    function createRoom() {
-        
-        if(typeof(Storage) !== "undefined") {
-            saveRoomNameLocally(room_name_text.value);
-            saveUserNameLocally(user_name_text.value);
+    var create_game_link = document.getElementById("create_game");
+    create_game_link.onclick = function () {
+        console.log("create_game_link onclick");
 
-            //TODo...
+        if(typeof(Storage) !== "undefined") {
+            saveGameNameLocally(game_name_text.value);
+            saveUserIdLocally(user_id_text.value);
+
             var dataToSend = {
-                "game_name" : room_name_text.value,
-                "user_id" : user_name_text.value
+                "game_name" : game_name_text.value,
+                "user_id" : user_id_text.value
             };
 
             console.log("game_name: " + dataToSend.game_name);
@@ -54,12 +52,13 @@ window.onload = function() {
             }).done(function(result) {
                 console.log("result: " + result);
                 if (result.status == 1) {
-                    //go to the Add Devices" page
-                    location.href = 'addDevice.html';               
-                }
 
-                console.log("room_id: " + result.game_id);
-                saveRoomIdLocally( result.game_id);
+                    console.log("room_id: " + result.game_id);
+                    saveGameIdLocally(result.game_id);
+
+                    //go to the Add Devices" page
+                    location.href = 'add_device.html';               
+                }
             }).fail( function(xhr, textStatus, errorThrown) {
                 console.log(xhr.responseText);
             });

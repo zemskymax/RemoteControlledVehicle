@@ -7,9 +7,7 @@ function saveActiveGameIdLocally(game_id) {
 function closeGame(game_id) {
 
     console.log('On "Close Game" button pressed.');
-    console.log('closeGame - game_id: ', game_id);
-    
-    
+    console.log('closeGame - game_id: ', game_id); 
 };
 
 function showGameDevices(game_id) {

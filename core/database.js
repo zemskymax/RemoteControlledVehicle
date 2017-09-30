@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
     models_path = process.cwd() + '/models';
 databaseConfig = require(process.cwd() + '/config/databaseConfig.js');
     
+mongoose.Promise = require('bluebird');
 
 //load all the models
 fs.readdirSync(models_path).forEach(function (file) {
