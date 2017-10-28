@@ -3,7 +3,10 @@ var bodyParser  = require('body-parser');
 var fs = require("fs-extra");
 env = process.env.NODE_ENV || 'development';
 socket = require('./sockets.js');
-devices = [];
+
+//global variables
+devices = {};
+clients = {};
 
 app = express();
 var http = require('http').Server(app);
@@ -70,11 +73,11 @@ app.get('/*', function(req, res)
 //game 
 app.post('/game/createGame', controllers.gameController.create_game);
 app.post('/game/startGame', controllers.gameController.start_game);
-app.post('/game/getGameDevices', controllers.gameController.get_game_devices);
 app.post('/game/getAllGames', controllers.gameController.get_all_games);
 
 //device
 app.post('/device/connectDevice', controllers.deviceController.connect_device);
+app.post('/device/getGameDevices', controllers.deviceController.get_game_devices);
 
 //user
 app.post('/user/register', controllers.usersController.register_user);

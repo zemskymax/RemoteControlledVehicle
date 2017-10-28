@@ -49,7 +49,55 @@ exports.connect_device = function (req, res) {
 		console.log('connect_device - device was successfully created.');    
 		r.msg.push("connect_device - device was successfully created.");
 		r.status = 1;
-		r.game_id = device_id;
+		r.device_id = device_id;
 		return res.json(r);
 	});
+};
+
+exports.get_game_devices = function (req, res) {
+	
+    var r = { msg: [], status: 0 };
+    console.log('--get_game_devices--');
+
+    var game_id = req.body.game_id;
+
+    if (!game_id) {
+        console.log('get_game_devices - please supply all the needed information.');
+        r.msg.push('get_game_devices - please supply all the needed information.');        
+		return res.json(r);
+    }
+
+    var query = {
+		id : game_id
+    };
+
+    Game.findOne(query, function (err, game) {
+        if (err) {
+            console.log("get_game_devices - fetching game devices failed, err:" + err);
+            r.msg.push("get_game_devices - fetching game devices failed, err:" + err);        
+            return res.json(r);            
+        }
+
+		if (game.active) {
+			Device.find({ gameId : game_id }, function (err, devices) {
+				if (err) {
+					console.log("get_game_devices - fetching game devices failed, err:" + err);
+					r.msg.push("get_game_devices - fetching game devices failed, err:" + err);        
+					return res.json(r);            
+				}
+				console.log('devices found: ' + devices.length);
+
+				console.log("get_game_devices - fetching game devices was successfully started.");
+				r.msg.push("get_game_devices - fetching game devices was successfully started.");
+				r.status = 1;
+				r.devices = devices;
+				return res.json(r);
+			});
+		}
+		else {
+            console.log("get_game_devices - the game is not active.");
+            r.msg.push("get_game_devices - the game is not active.");        
+            return res.json(r);   
+		}
+    });
 };

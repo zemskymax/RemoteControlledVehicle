@@ -85,38 +85,6 @@ exports.start_game = function (req, res) {
     });
 };
 
-exports.get_game_devices = function (req, res) {
-	
-    var r = { msg: [], status: 0 };
-    console.log('--get_game_devices--');
-
-    var game_id = req.body.game_id;
-
-    if (!game_id) {
-        console.log('get_game_devices - please supply all the needed information.');
-        r.msg.push('get_game_devices - please supply all the needed information.');        
-		return res.json(r);
-    }
-
-    var query = {
-		id: game_id
-    };
-
-    Game.findOne(query, function (err, game) {
-        if (err) {
-            console.log("get_game_devices - fetching game devices failed, err:" + err);
-            r.msg.push("get_game_devices - fetching game devices failed, err:" + err);        
-            return res.json(r);            
-        }
-
-        console.log("get_game_devices - fetching game devices was successfully started.");
-        r.msg.push("get_game_devices - fetching game devices was successfully started.");
-        r.status = 1;
-        r.devices = game.devices;
-        return res.json(r);
-    });
-};
-
 exports.get_all_games = function (req, res) {
 	
     var r = { msg: [], status: 0 };

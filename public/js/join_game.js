@@ -15,10 +15,9 @@ function showGameDevices(game_id) {
         console.log('On "Show Game Devices" button pressed.');
         console.log('showGameDevices - game_id: ', game_id);
         
-        saveActiveGameIdLocally(room_name_text.value);
+        saveActiveGameIdLocally(game_id);
 
-        //go to the "Show Game Devices" page
-        location.href = 'show_game_devices.html'; 
+        location.href = 'game_devices.html'; 
 };
 
 window.onload = function() {
@@ -43,32 +42,31 @@ window.onload = function() {
             //populate
             $.each(result.games, function(i, game) {
                 //create a div
-                var div = $("<div></div>")
-                    .attr("id", "comment" + game.id)
-                    .attr("onclick", "showGameDevices('" + game.id +"')")
-                    .addClass("game_container");
-                //add a link to the div
-                var a = $("<a></a>")
-                    //.attr("href", "?delete=" + game.id)
-                    //.attr("id", "close-note")
-                    .addClass("game_link");
-
-                $("<p></p>").text(game.name)
-                    .appendTo(a);
-
-                $("<p></p>").text(game.ownerId)
-                    .appendTo(a);
+                var game_div = $("<div></div>")
+                    .addClass("game");
 
                 //add ability to remove game if the user owns the game
                 if (localStorage.user_name === game.ownerId) {
                     $("<a></a>")
                         .attr("onclick", "closeGame('" + game.id +"')")
-                        .attr("id", "delete_game_link")
-                        .text("X")
-                        .appendTo(a);
+                        .text("x")
+                        .appendTo(game_div)
+                        .addClass("delete_game_link");
                 }
-                a.appendTo(div);
-                $("#game_container").append(div);
+
+                var info_container_div = $("<div></div>")
+                    .attr("onclick", "showGameDevices('" + game.id +"')")
+                    .addClass("game_info_container");  
+
+                $("<h4></h4>").text(game.name)
+                    .appendTo(info_container_div);
+
+                $("<p></p>").text(game.ownerId)
+                    .appendTo(info_container_div);
+
+                info_container_div.appendTo(game_div);
+
+                $("#game_container").append(game_div);
             });
         }
     }).fail( function(xhr, textStatus, errorThrown) {

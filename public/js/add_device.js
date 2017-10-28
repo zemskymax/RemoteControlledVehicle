@@ -1,8 +1,7 @@
 
-function CreateSocket() {
-
-    var socket = io();
-    
+function saveDeviceIdLocally(device_id) {
+    localStorage.device_id = device_id;
+    console.log("Device ID was saved: ", device_id);
 }
 
 window.onload = function() {
@@ -38,7 +37,10 @@ window.onload = function() {
         }).done(function(result) {
             console.log("result: " + result);
             if (result.status == 1) {
-                start_game_button.disabled = false;              
+                start_game_button.disabled = false;
+
+                console.log("device_id: " + result.device_id);
+                saveDeviceIdLocally(result.device_id);
             }
         }).fail( function(xhr, textStatus, errorThrown) {
             console.log(xhr.responseText);
@@ -72,7 +74,7 @@ window.onload = function() {
                 //Start hosting
                 console.log("~~~Start Hosting~~~");  
 
-                window.open('game.html', '_blank');
+                window.open('host_device.html', '_blank');
             }
         }).fail( function(xhr, textStatus, errorThrown) {
             console.log(xhr.responseText);

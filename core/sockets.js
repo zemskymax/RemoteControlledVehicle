@@ -7,12 +7,31 @@ module.exports.init =  function (http) {
     io.on('connection', function (socket) {
         console.log("device is connected");
 
-		devices.push(socket);
+		//devices.push(socket);
 		
 		//TODO. remove
 		var socket_id = socket.id;
 		console.log("socket id: ", socket_id);
 		
+		socket.on('create', function(device_id) {
+			console.log('Received request to create the device, id: ' + device_id);
+
+//			var nsp = io.of(user._id);
+//			clients[user._id] = nsp;
+			
+			devices[device_id] = socket;
+			socket.join(device_id);
+			socket.emit('created', device_id, socket.id);
+		});
+
+		socket.on('join', function(device_id) {
+			console.log('Received request to join the device, id: ' + device_id);
+			
+			clients[device_id] = socket;
+			io.sockets.in(device_id).emit('joininig', device_id, socket.id);
+			socket.join(device_id);			
+			socket.emit('joined', device_id, socket.id);
+		});
 		//console.log("device: ", util.inspect(socket, false, null));
 		
         socket.on('connect_failed', function(cf) { 
@@ -21,12 +40,14 @@ module.exports.init =  function (http) {
 			devices.pop();
 		});
 			
-        socket.on('disconnect', function ( cd ) { 
+        socket.on('disconnect', function (cd) { 
 			console.log('device was disconnected - ', cd);
 			// remove the device from the array
-			//delete devices[socket.id]; 		
-			delete devices[0]; 
-			devices.pop();			
+			//delete devices[socket.id]; 
+			
+			
+			//delete devices[0]; 
+			//devices.pop();			
 		});
 		
 		socket.on('greeting', function (msg) {
