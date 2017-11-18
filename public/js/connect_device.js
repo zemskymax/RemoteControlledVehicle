@@ -19,6 +19,11 @@ var sdpConstraints = {
 
 var socket = io('drone-controller.herokuapp.com');
 
+function sendMessage(message) {
+    console.log('Client sending message: ', message);
+    socket.emit('message', message);
+};
+
 window.onload = function() {
     
     var remoteVideo = document.querySelector('#remote_video');
@@ -141,11 +146,6 @@ window.onload = function() {
             handleRemoteHangup();
         }
     });
-
-    function sendMessage(message) {
-        console.log('Client sending message: ', message);
-        socket.emit('message', message);
-    };
 };
 
 window.onbeforeunload = function() {
