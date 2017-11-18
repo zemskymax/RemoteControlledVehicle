@@ -22,8 +22,6 @@ var socket = io('drone-controller.herokuapp.com');
 window.onload = function() {
     
     var remoteVideo = document.querySelector('#remote_video');
-    
-    sendMessage('got user media');
 
     //maybeStart();
 

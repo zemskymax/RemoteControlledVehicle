@@ -27,9 +27,14 @@ module.exports.init =  function (http) {
 		socket.on('join', function(device_id) {
 			console.log('REQUEST - join the device, id: ' + device_id);
 			
-			//TODO. '.includes(device_id)'
 			// this is a client socket	
-			routing_data[device_id].client = socket;	
+			if (routing_data.includes(device_id)) {
+				routing_data[device_id].client = socket;
+				console.log('Client is regestrated succesfully!');			
+			}
+			else {
+				console.log('Client registration failed!');			
+			}
 
 			//clients[device_id] = socket;
 			io.sockets.in(device_id).emit('joininig', device_id, socket.id);
