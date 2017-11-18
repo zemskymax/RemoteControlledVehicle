@@ -150,7 +150,7 @@ window.onload = function() {
     });
 
     socket.on('message', function(message) {
-        console.log('Device received a message:', message);
+        console.log('+++ HOST received a message:' + message + ' +++');
 
         if (message.type === 'offer') {
             if (!isStarted) {

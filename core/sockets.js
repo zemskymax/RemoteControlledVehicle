@@ -40,9 +40,9 @@ module.exports.init =  function (http) {
 			socket.emit('joined', device_id, socket.id);
 		});
 
-		socket.on('message', function(message) {
-			console.log('received: %s', message);
-			
+		socket.on('message', function(device_id, message) {
+			console.log('-->message received: %s' + message.type + '<--');
+			console.log('-->th device is: %s' + device_id + '<--');
 		});
 
 		//console.log("device: ", util.inspect(socket, false, null));

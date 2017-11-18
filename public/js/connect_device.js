@@ -94,7 +94,7 @@ window.onload = function() {
         //  sessionDescription.sdp = preferOpus(sessionDescription.sdp);
         pc.setLocalDescription(sessionDescription);
         console.log('>>>>> Client sending message: ', sessionDescription);
-        socket.emit('message', sessionDescription);
+        socket.emit('message', device_id, sessionDescription);
     }
 
     function handleCreateOfferError(event) {
@@ -120,7 +120,7 @@ window.onload = function() {
     });
 
     socket.on('message', function(message) {
-        console.log('Device received a message:', message);
+        console.log('+++ CLIENT received a message:' + message + ' +++');
 
         if (message === 'media_ready') {
             maybeStart();
