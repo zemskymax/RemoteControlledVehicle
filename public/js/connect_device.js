@@ -97,9 +97,6 @@ window.onload = function() {
 
         pc.setLocalDescription(sessionDescription);
         sendMessage(sessionDescription);
-
-        //console.log('>>>>> Client sending message: ', sessionDescription);
-        //socket.emit('message', device_id, sessionDescription);
     }
 
     function handleCreateOfferError(event) {
@@ -107,7 +104,7 @@ window.onload = function() {
     }
 
     function doAnswer() {
-        console.log('>>>> doCall');
+        console.log('>>>> doAnswer');
         console.log('>>>> Sending answer to peer.');
         pc.createAnswer().then(
             setLocalAndSendMessage,
@@ -164,6 +161,17 @@ window.onload = function() {
             handleRemoteHangup();
         }
     });
+    
+    function handleRemoteHangup() {
+        console.log('Session terminated.');
+        stop();
+    }
+      
+    function stop() {
+        isStarted = false;
+        pc.close();
+        pc = null;
+    }
 };
 
 window.onbeforeunload = function() {

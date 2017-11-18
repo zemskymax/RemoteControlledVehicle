@@ -88,12 +88,12 @@ window.onload = function() {
         console.log('>>>>> handleIceCandidate');
         console.log('>>>>> icecandidate event: ', event);
         if (event.candidate) {
-          sendMessage({
-            type: 'candidate',
-            label: event.candidate.sdpMLineIndex,
-            id: event.candidate.sdpMid,
-            candidate: event.candidate.candidate
-          });
+            sendMessage({
+                type: 'candidate',
+                label: event.candidate.sdpMLineIndex,
+                id: event.candidate.sdpMid,
+                candidate: event.candidate.candidate
+            });
         } else {
             console.log('>>>>> End of candidates.');
         }
@@ -129,7 +129,7 @@ window.onload = function() {
     }
 
     function doAnswer() {
-        console.log('>>>> doCall');
+        console.log('>>>> doAnswer');
         console.log('>>>> Sending answer to peer.');
         pc.createAnswer().then(
             setLocalAndSendMessage,
@@ -187,6 +187,17 @@ window.onload = function() {
             handleRemoteHangup();
         }
     });
+
+    function handleRemoteHangup() {
+        console.log('Session terminated.');
+        stop();
+    }
+      
+    function stop() {
+        isStarted = false;
+        pc.close();
+        pc = null;
+    }
 };
 
 window.onbeforeunload = function() {
