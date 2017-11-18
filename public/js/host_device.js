@@ -23,7 +23,7 @@ var socket = io('drone-controller.herokuapp.com');
 
 window.onload = function() {
     
-    var localVideo = document.querySelector('#localVideo');
+    var localVideo = document.querySelector('#local_video');
     
     navigator.mediaDevices.getUserMedia({
         audio: false,

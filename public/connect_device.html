@@ -3,17 +3,21 @@
 
 <head>
   <title>SUBReal</title>
-
-  <link rel="stylesheet" href="/css/main.css" />
-
+  <style>
+      video {
+        max-width: 100%;
+        width: 320px;
+        border: 1px solid #798490;
+      }
+  </style>
 </head>
 
 <body>
 
   <h1>SUBReal</h1>
 
-  <div id="videos">
-    <video id="remoteVideo" autoplay></video>
+  <div id="video_container">
+    <video id="remote_video" autoplay></video>
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
