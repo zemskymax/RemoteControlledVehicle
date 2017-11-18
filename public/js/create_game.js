@@ -44,8 +44,8 @@ window.onload = function() {
             //send data to the server 
             $.ajax({
                 type: 'POST',
-                //url : 'https://powerful-shore-11597.herokuapp.com/game/createGame',
-                url : 'http://localhost:5000/game/createGame',
+                url : 'https://drone-controller.herokuapp.com/game/createGame',
+                //url : 'http://localhost:5000/game/createGame',
                 dataType: 'json',
                 data: dataToSend,
                 cache: false     

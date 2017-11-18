@@ -31,8 +31,8 @@ window.onload = function() {
     //get data from the server 
     $.ajax({
         type: 'POST',
-            //url : 'https://powerful-shore-11597.herokuapp.com/game/getAllGames',
-        url : 'http://localhost:5000/game/getAllGames',
+        url : 'https://drone-controller.herokuapp.com/game/getAllGames',
+        //url : 'http://localhost:5000/game/getAllGames',
         dataType: 'json',
         data: dataToSend,
         cache: false     

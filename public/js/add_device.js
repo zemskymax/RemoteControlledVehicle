@@ -29,8 +29,8 @@ window.onload = function() {
         //send data to server 
         $.ajax({
             type: 'POST',
-             //url : 'https://powerful-shore-11597.herokuapp.com/device/connectDevice',
-            url : 'http://localhost:5000/device/connectDevice',
+            url : 'https://drone-controller.herokuapp.com/device/connectDevice',
+            //url : 'http://localhost:5000/device/connectDevice',
             dataType: 'json',
             data: dataToSend,
             cache: false     
@@ -63,8 +63,8 @@ window.onload = function() {
         //send data to server 
         $.ajax({
             type: 'POST',
-                //url : 'https://powerful-shore-11597.herokuapp.com/game/startGame',
-            url : 'http://localhost:5000/game/startGame',
+            url : 'https://drone-controller.herokuapp.com/game/startGame',
+            //url : 'http://localhost:5000/game/startGame',
             dataType: 'json',
             data: dataToSend,
             cache: false     
