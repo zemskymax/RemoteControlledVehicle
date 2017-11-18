@@ -28,7 +28,7 @@ module.exports.init =  function (http) {
 			console.log('REQUEST - join the device, id: ' + device_id);
 			
 			// this is a client socket	
-			if (routing_data.includes(device_id)) {
+			if (routing_data.indexOf("someString") > -1) {
 				routing_data[device_id].client = socket;
 				console.log('Client is regestrated succesfully!');			
 			}
