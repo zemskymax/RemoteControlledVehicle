@@ -40,9 +40,22 @@ module.exports.init =  function (http) {
 			socket.emit('joined', device_id, socket.id);
 		});
 
-		socket.on('message', function(device_id, message) {
-			console.log('-->message received: %s' + message.type + '<--');
-			console.log('-->th device is: %s' + device_id + '<--');
+		socket.on('message', function(device_id, sender_type, message) {
+			console.log('-->message received: ' + message.type + '<--');
+			console.log('-->the device is: ' + device_id + '<--');
+			console.log('-->the sender type is: ' + sender_type + '<--');
+
+			if (routing_data[device_id] !== undefined) { 
+				if (sender_type === 'client') {
+					routing_data[device_id].client.emit('message', message);;
+				}
+				else if (sender_type === 'device') {
+					routing_data[device_id].device.emit('message', message);;
+				}
+			}
+			else {
+				console.log('No socket belongs to this device!');
+			}
 		});
 
 		//console.log("device: ", util.inspect(socket, false, null));

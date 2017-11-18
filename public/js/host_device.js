@@ -5,6 +5,7 @@ var isStarted = false;
 var localStream;
 var pc;
 var device_id;
+var sender_type = 'device';
 
 var pcConfig = {
     'iceServers': [
@@ -23,7 +24,7 @@ var socket = io('drone-controller.herokuapp.com');
 
 function sendMessage(message) {
     console.log('*** HOST sending message: ' + message + ' ***');
-    socket.emit('message', message);
+    socket.emit('message', device_id, sender_type, message);
 };
 
 window.onload = function() {

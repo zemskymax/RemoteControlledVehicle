@@ -3,6 +3,7 @@
 var isStarted = false;
 var pc;
 var device_id;
+var sender_type = 'client';
 
 var pcConfig = {
     'iceServers': [
@@ -21,7 +22,7 @@ var socket = io('drone-controller.herokuapp.com');
 
 function sendMessage(message) {
     console.log('*** CLIENT sending message: ' + message + ' ***');
-    socket.emit('message', message);
+    socket.emit('message', device_id, sender_type, message);
 };
 
 window.onload = function() {
@@ -90,11 +91,15 @@ window.onload = function() {
 
     function setLocalAndSendMessage(sessionDescription) {
         console.log('>>>>> setLocalAndSendMessage');
+
         // Set Opus as the preferred codec in SDP if Opus is present.
         //  sessionDescription.sdp = preferOpus(sessionDescription.sdp);
+        
         pc.setLocalDescription(sessionDescription);
-        console.log('>>>>> Client sending message: ', sessionDescription);
-        socket.emit('message', device_id, sessionDescription);
+        sendMessage(sessionDescription);
+
+        //console.log('>>>>> Client sending message: ', sessionDescription);
+        //socket.emit('message', device_id, sessionDescription);
     }
 
     function handleCreateOfferError(event) {
