@@ -5,14 +5,12 @@ module.exports.init =  function (http) {
     io = require('socket.io')(http);
 
     io.on('connection', function (socket) {
-        console.log("socket is connected");
-
 		//TODO. remove
 		var socket_id = socket.id;
-		console.log("socket id: ", socket_id);
+		console.log("socket is connected, id: ", socket_id);
 		
 		socket.on('create', function(device_id) {
-			console.log('Received request to create the device, id: ' + device_id);
+			console.log('REQUEST - create the device, id: ' + device_id);
 
 //			var nsp = io.of(user._id);
 //			clients[user._id] = nsp;
@@ -27,7 +25,7 @@ module.exports.init =  function (http) {
 		});
 
 		socket.on('join', function(device_id) {
-			console.log('Received request to join the device, id: ' + device_id);
+			console.log('REQUEST - join the device, id: ' + device_id);
 			
 			//TODO. '.includes(device_id)'
 			// this is a client socket	
