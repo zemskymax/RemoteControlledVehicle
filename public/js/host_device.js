@@ -22,7 +22,7 @@ var sdpConstraints = {
 var socket = io('drone-controller.herokuapp.com');
 
 function sendMessage(message) {
-    console.log('Client sending message: ', message);
+    console.log('*** HOST sending message: ' + message + ' ***');
     socket.emit('message', message);
 };
 
@@ -34,19 +34,19 @@ window.onload = function() {
         audio: false,
         video: true
     })
-    .then(gotStream)
+    .then(mediaReady)
     .catch(function(e) {
         alert('getUserMedia() error: ' + e.name);
     });
 
-    function gotStream(stream) {
-        console.log('>> gotStream ');
+    function mediaReady(stream) {
+        console.log('>> mediaReady ');
 
         console.log('>> Adding local stream.');
         localVideo.src = window.URL.createObjectURL(stream);
         localStream = stream;
         
-        sendMessage('got user media');
+        sendMessage('media_ready');
 
         maybeStart();
     };

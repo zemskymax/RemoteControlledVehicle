@@ -19,7 +19,6 @@ module.exports.init =  function (http) {
 			routing_data[device_id]  = [];
 			routing_data[device_id].device = socket;
 
-			//devices[device_id] = socket;
 			socket.join(device_id);
 			socket.emit('created', device_id, socket.id);
 		});
@@ -28,15 +27,14 @@ module.exports.init =  function (http) {
 			console.log('REQUEST - join the device, id: ' + device_id);
 			
 			// this is a client socket	
-			if (true /*routing_data.indexOf("someString") > -1*/) {
-				console.log('Client is regestrated succesfully!');			
+			if (routing_data[device_id] !== undefined) {
+				console.log('Client is registrated succesfully!');			
 				routing_data[device_id].client = socket;
 			}
 			else {
 				console.log('Client registration failed!');			
 			}
 
-			//clients[device_id] = socket;
 			io.sockets.in(device_id).emit('joininig', device_id, socket.id);
 			socket.join(device_id);			
 			socket.emit('joined', device_id, socket.id);

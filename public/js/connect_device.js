@@ -20,15 +20,13 @@ var sdpConstraints = {
 var socket = io('drone-controller.herokuapp.com');
 
 function sendMessage(message) {
-    console.log('Client sending message: ', message);
+    console.log('*** CLIENT sending message: ' + message + ' ***');
     socket.emit('message', message);
 };
 
 window.onload = function() {
     
     var remoteVideo = document.querySelector('#remote_video');
-
-    //maybeStart();
 
     function maybeStart() {
         console.log('>>> maybeStart. isStarted: ', isStarted);
@@ -112,7 +110,9 @@ window.onload = function() {
      
     socket.on('joined', function(device_id, client_socket_id) {
         console.log('Device id: ' + device_id + ' joined succesfully!');
-        console.log('Client socket ID: ' + client_socket_id);        
+        console.log('Client socket ID: ' + client_socket_id);  
+        
+        maybeStart();
     });
 
     socket.on('ipaddr', function(ipaddr) {
@@ -122,7 +122,7 @@ window.onload = function() {
     socket.on('message', function(message) {
         console.log('Device received a message:', message);
 
-        if (message === 'got user media') {
+        if (message === 'media_ready') {
             maybeStart();
         } 
         else if (message.type === 'offer') {
