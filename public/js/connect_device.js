@@ -1,8 +1,6 @@
 'use strict';
 
-var isChannelReady = false;
 var isStarted = false;
-var localStream;
 var pc;
 var device_id;
 
@@ -21,40 +19,18 @@ var sdpConstraints = {
 
 window.onload = function() {
     
-    var localVideo = document.querySelector('#localVideo');
+    var remoteVideo = document.querySelector('#remoteVideo');
     
-    navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: true
-    })
-    .then(gotStream)
-    .catch(function(e) {
-        alert('getUserMedia() error: ' + e.name);
-    });
+    sendMessage('got user media');
 
-    function gotStream(stream) {
-        console.log('>> gotStream ');
-
-        console.log('>> Adding local stream.');
-        localVideo.src = window.URL.createObjectURL(stream);
-        localStream = stream;
-        
-        sendMessage('got user media');
-
-        maybeStart();
-    };
-
-    var constraints = {
-        video: true
-    };
+    maybeStart();
 
     function maybeStart() {
-        console.log('>>> maybeStart ', isStarted, localStream, isChannelReady);
+        console.log('>>> maybeStart. isStarted: ', isStarted);
 
-        if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
+        if (!isStarted) {
             console.log('>>> creating peer connection');
             createPeerConnection();
-            pc.addStream(localStream);
             isStarted = true;
 
             doCall();
@@ -94,6 +70,9 @@ window.onload = function() {
     function handleRemoteStreamAdded(event) {
         console.log('>>>>> handleRemoteStreamAdded');
         console.log('>>>>> Remote stream added.');
+        
+        remoteVideo.src = window.URL.createObjectURL(event.stream);
+        remoteStream = event.stream;
     }
 
     function handleRemoteStreamRemoved(event) {
@@ -102,27 +81,26 @@ window.onload = function() {
 
     function doCall() {
         console.log('>>>> doCall');
-        console.log('>>>> Sending offer to peer');
+        console.log('Sending offer to peer');
         pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
     }
 
     function setLocalAndSendMessage(sessionDescription) {
         console.log('>>>>> setLocalAndSendMessage');
-
-        //Set Opus as the preferred codec in SDP if Opus is present.
-        //sessionDescription.sdp = preferOpus(sessionDescription.sdp);
-
+        // Set Opus as the preferred codec in SDP if Opus is present.
+        //  sessionDescription.sdp = preferOpus(sessionDescription.sdp);
         pc.setLocalDescription(sessionDescription);
-        sendMessage(sessionDescription);
+        console.log('>>>>> Client sending message: ', sessionDescription);
+        socket.emit('message', sessionDescription);
     }
 
     function handleCreateOfferError(event) {
         console.log('createOffer error: ', event);
     }
-
+    
     var socket = io();
 
-    device_id = localStorage.device_id;
+    device_id = localStorage.active_device_id;
 
     if (device_id !== "") {
         console.log('Device is ready for action, id: ' + device_id);
@@ -134,13 +112,6 @@ window.onload = function() {
         console.log('Device socket ID: ' + device_socket_id);
     });
      
-    socket.on('joining', function(device_id, user_socket_id) {
-        console.log('A peer made a request to connect with the divice, ID: ' + device_id);
-        console.log('Peer socket ID: ' + user_socket_id);
-        isChannelReady = true;
-    });
-
-    //TODO. goes to another page
     socket.on('joined', function(device_id, user_id) {
         isInitiator = false;
     });

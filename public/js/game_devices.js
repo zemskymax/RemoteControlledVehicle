@@ -12,7 +12,7 @@ function connectToDevice(device_id) {
         
         saveActiveDeviceIdLocally(device_id);
 
-        location.href = 'connect_devices.html'; 
+        location.href = 'connect_device.html'; 
 };
 
 window.onload = function() {
@@ -59,7 +59,7 @@ window.onload = function() {
                     .attr("onclick", "connectToDevice('" + device.id +"')")
                     .addClass("device_info_container");  
 
-                $("<h4></h4>").text(device.name)
+                $("<h4></h4>").text(device.type)
                     .appendTo(info_container_div);
 
                 $("<p></p>").text(device.ownerId)
