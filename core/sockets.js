@@ -41,16 +41,24 @@ module.exports.init =  function (http) {
 		});
 
 		socket.on('message', function(device_id, sender_type, message) {
-			console.log('-->message received: ' + message.type + '<--');
+
+			var msg = '';
+			if (message.type !== undefined) {
+				msg = message.type;
+			} 
+			else {
+				msg = message;
+			}
+			console.log('-->message received: ' + msg + '<--');
 			console.log('-->the device is: ' + device_id + '<--');
 			console.log('-->the sender type is: ' + sender_type + '<--');
 
 			if (routing_data[device_id] !== undefined) { 
 				if (sender_type === 'client') {
-					routing_data[device_id].client.emit('message', message);;
+					routing_data[device_id].device.emit('message', message);
 				}
 				else if (sender_type === 'device') {
-					routing_data[device_id].device.emit('message', message);;
+					routing_data[device_id].client.emit('message', message);
 				}
 			}
 			else {

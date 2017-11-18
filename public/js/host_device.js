@@ -95,7 +95,7 @@ window.onload = function() {
             candidate: event.candidate.candidate
           });
         } else {
-          console.log('>>>>> End of candidates.');
+            console.log('>>>>> End of candidates.');
         }
     }
 
@@ -140,7 +140,7 @@ window.onload = function() {
     function onCreateSessionDescriptionError(error) {
         console.log('>>>>> session description error: ' + error.toString());
     }
-    
+
     device_id = localStorage.device_id;
 
     if (device_id !== "") {
