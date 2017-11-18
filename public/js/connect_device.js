@@ -25,7 +25,7 @@ window.onload = function() {
     
     sendMessage('got user media');
 
-    maybeStart();
+    //maybeStart();
 
     function maybeStart() {
         console.log('>>> maybeStart. isStarted: ', isStarted);
@@ -83,7 +83,7 @@ window.onload = function() {
 
     function doCall() {
         console.log('>>>> doCall');
-        console.log('Sending offer to peer');
+        console.log('>>>> Sending offer to peer');
         pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
     }
 
@@ -103,17 +103,13 @@ window.onload = function() {
     device_id = localStorage.active_device_id;
 
     if (device_id !== "") {
-        console.log('Device is ready for action, id: ' + device_id);
-        socket.emit('create', device_id);
+        console.log('Join the device, id: ' + device_id);
+        socket.emit('join', device_id);
     }
-
-    socket.on('created', function(device_id, device_socket_id) {
-        console.log('Created room ' + device_id);
-        console.log('Device socket ID: ' + device_socket_id);
-    });
      
-    socket.on('joined', function(device_id, user_id) {
-        isInitiator = false;
+    socket.on('joined', function(device_id, client_socket_id) {
+        console.log('Device id: ' + device_id + ' joined succesfully!');
+        console.log('Client socket ID: ' + client_socket_id);        
     });
 
     socket.on('ipaddr', function(ipaddr) {

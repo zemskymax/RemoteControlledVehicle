@@ -8,6 +8,8 @@ socket = require('./sockets.js');
 devices = {};
 clients = {};
 
+routing_data = {};
+
 app = express();
 var http = require('http').Server(app);
 socket.init(http);

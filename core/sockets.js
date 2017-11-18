@@ -5,10 +5,8 @@ module.exports.init =  function (http) {
     io = require('socket.io')(http);
 
     io.on('connection', function (socket) {
-        console.log("device is connected");
+        console.log("socket is connected");
 
-		//devices.push(socket);
-		
 		//TODO. remove
 		var socket_id = socket.id;
 		console.log("socket id: ", socket_id);
@@ -19,7 +17,11 @@ module.exports.init =  function (http) {
 //			var nsp = io.of(user._id);
 //			clients[user._id] = nsp;
 			
-			devices[device_id] = socket;
+			//this is a device socket
+			routing_data[device_id]  = [];
+			routing_data[device_id].device = socket;
+
+			//devices[device_id] = socket;
 			socket.join(device_id);
 			socket.emit('created', device_id, socket.id);
 		});
@@ -27,11 +29,21 @@ module.exports.init =  function (http) {
 		socket.on('join', function(device_id) {
 			console.log('Received request to join the device, id: ' + device_id);
 			
-			clients[device_id] = socket;
+			//TODO. '.includes(device_id)'
+			// this is a client socket	
+			routing_data[device_id].client = socket;	
+
+			//clients[device_id] = socket;
 			io.sockets.in(device_id).emit('joininig', device_id, socket.id);
 			socket.join(device_id);			
 			socket.emit('joined', device_id, socket.id);
 		});
+
+		socket.on('message', function(message) {
+			console.log('received: %s', message);
+			
+		});
+
 		//console.log("device: ", util.inspect(socket, false, null));
 		
         socket.on('connect_failed', function(cf) { 

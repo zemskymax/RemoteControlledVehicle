@@ -125,24 +125,19 @@ window.onload = function() {
     device_id = localStorage.device_id;
 
     if (device_id !== "") {
-        console.log('Device is ready for action, id: ' + device_id);
+        console.log('Connect the device, id: ' + device_id);
         socket.emit('create', device_id);
     }
 
     socket.on('created', function(device_id, device_socket_id) {
-        console.log('Created room ' + device_id);
+        console.log('Device id: ' + device_id + ' created successfully!');
         console.log('Device socket ID: ' + device_socket_id);
     });
      
     socket.on('joining', function(device_id, user_socket_id) {
-        console.log('A peer made a request to connect with the divice, ID: ' + device_id);
-        console.log('Peer socket ID: ' + user_socket_id);
+        console.log('Client wants to connect with the divice, ID: ' + device_id);
+        console.log('Client socket ID: ' + client_socket_id);
         isChannelReady = true;
-    });
-
-    //TODO. goes to another page
-    socket.on('joined', function(device_id, user_id) {
-        isInitiator = false;
     });
 
     socket.on('ipaddr', function(ipaddr) {
@@ -152,15 +147,12 @@ window.onload = function() {
     socket.on('message', function(message) {
         console.log('Device received a message:', message);
 
-        if (message === 'got user media') {
-            maybeStart();
-        } 
-        else if (message.type === 'offer') {
+        if (message.type === 'offer') {
             if (!isStarted) {
                 maybeStart();
             }
             pc.setRemoteDescription(new RTCSessionDescription(message));
-            doAnswer();
+            doAnswer(); //TODO.
         } 
         else if (message.type === 'answer' && isStarted) {
             pc.setRemoteDescription(new RTCSessionDescription(message));
