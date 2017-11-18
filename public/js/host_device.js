@@ -128,6 +128,19 @@ window.onload = function() {
         console.log('createOffer error: ', event);
     }
 
+    function doAnswer() {
+        console.log('>>>> doCall');
+        console.log('>>>> Sending answer to peer.');
+        pc.createAnswer().then(
+            setLocalAndSendMessage,
+            onCreateSessionDescriptionError
+        );
+    }
+
+    function onCreateSessionDescriptionError(error) {
+        console.log('>>>>> session description error: ' + error.toString());
+    }
+    
     device_id = localStorage.device_id;
 
     if (device_id !== "") {
@@ -158,7 +171,7 @@ window.onload = function() {
                 maybeStart();
             }
             pc.setRemoteDescription(new RTCSessionDescription(message));
-            doAnswer(); //TODO.
+            doAnswer(); 
         } 
         else if (message.type === 'answer' && isStarted) {
             pc.setRemoteDescription(new RTCSessionDescription(message));

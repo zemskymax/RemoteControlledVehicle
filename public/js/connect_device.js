@@ -94,7 +94,7 @@ window.onload = function() {
 
         // Set Opus as the preferred codec in SDP if Opus is present.
         //  sessionDescription.sdp = preferOpus(sessionDescription.sdp);
-        
+
         pc.setLocalDescription(sessionDescription);
         sendMessage(sessionDescription);
 
@@ -103,7 +103,20 @@ window.onload = function() {
     }
 
     function handleCreateOfferError(event) {
-        console.log('createOffer error: ', event);
+        console.log('>>>>> createOffer error: ', event);
+    }
+
+    function doAnswer() {
+        console.log('>>>> doCall');
+        console.log('>>>> Sending answer to peer.');
+        pc.createAnswer().then(
+            setLocalAndSendMessage,
+            onCreateSessionDescriptionError
+        );
+    }
+
+    function onCreateSessionDescriptionError(error) {
+        console.log('>>>>> session description error: ' + error.toString());
     }
     
     device_id = localStorage.active_device_id;
