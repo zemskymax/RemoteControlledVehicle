@@ -19,6 +19,8 @@ var sdpConstraints = {
     offerToReceiveVideo: true
 };
 
+var socket = io('drone-controller.herokuapp.com');
+
 window.onload = function() {
     
     var localVideo = document.querySelector('#localVideo');
@@ -119,8 +121,6 @@ window.onload = function() {
     function handleCreateOfferError(event) {
         console.log('createOffer error: ', event);
     }
-
-    var socket = io();
 
     device_id = localStorage.device_id;
 
