@@ -43,7 +43,10 @@ window.onload = function() {
 
     function start() {
         console.log('>>> start ', isStarted, localStream, isChannelReady);
-
+        console.log('   --- isStarted ', isStarted);
+        console.log('   --- localStream ', localStream);
+        console.log('   --- isChannelReady ', isChannelReady);
+        
         if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
             console.log('>>> creating peer connection');
             createPeerConnection();
