@@ -18,7 +18,7 @@ module.exports.init =  function (http) {
 			
 			//this is a device socket
 			routing_data[device_id]  = [];
-			routing_data[device_id].device = socket;
+			routing_data[device_id].device = io.of(socket);
 
 			socket.join(device_id);
 			socket.emit('created', device_id, socket.id);
@@ -38,7 +38,7 @@ module.exports.init =  function (http) {
 			// this is a client socket	
 			if (routing_data[device_id] !== undefined) {
 				console.log('Client is registrated succesfully!');			
-				routing_data[device_id].client = socket;
+				routing_data[device_id].client = io.of(socket);
 				routing_data[device_id].device.emit('joininig', device_id, socket.id);				
 			}
 			else {
