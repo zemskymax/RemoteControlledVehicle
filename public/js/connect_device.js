@@ -4,6 +4,7 @@ var isStarted = false;
 var pc;
 var device_id;
 var sender_type = 'client';
+var remoteStream;
 
 var pcConfig = {
     'iceServers': [
