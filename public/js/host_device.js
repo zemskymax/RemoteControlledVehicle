@@ -37,10 +37,6 @@ window.onload = function() {
         socket.emit('ready', device_id);
     };
 
-    var constraints = {
-        video: true
-    };
-
     function start() {
         console.log('>>> start ', isStarted, localStream, isChannelReady);
         console.log('   --- isStarted ', isStarted);
@@ -60,14 +56,13 @@ window.onload = function() {
     function createPeerConnection() {
         console.log('>>>> createPeerConnection ');
         try {
-            pc = new RTCPeerConnection(null);
+            pc = new RTCPeerConnection(pcConfig);
             pc.onicecandidate = handleIceCandidate;
             pc.onaddstream = handleRemoteStreamAdded;
             pc.onremovestream = handleRemoteStreamRemoved;
             console.log('>>>> RTCPeerConnnection connection was created.');
         } catch (e) {
             console.log('>>>> Failed to create RTCPeerConnnection connection, exception: ' + e.message);
-            //alert('>>>> Cannot create RTCPeerConnection object.');
             return;
         }
     };
@@ -163,14 +158,14 @@ window.onload = function() {
     socket.on('message', function(message) {
         console.log('+++ HOST received a message:' + message.type + ' +++');
 
-        if (message.type === 'offer') {
+        if (message.type === 'offer') { 
             if (!isStarted) {
                 start();
             }
             pc.setRemoteDescription(new RTCSessionDescription(message));
             doAnswer(); 
         } 
-        else if (message.type === 'answer' && isStarted) { //TODO. remove
+        else if (message.type === 'answer' && isStarted) {  //TODO. remove
             pc.setRemoteDescription(new RTCSessionDescription(message));
         } 
         else if (message.type === 'candidate' && isStarted) {

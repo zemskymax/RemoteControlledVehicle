@@ -39,7 +39,7 @@ window.onload = function() {
     function createPeerConnection() {
         console.log('>>>> createPeerConnection ');
         try {
-            pc = new RTCPeerConnection(null);
+            pc = new RTCPeerConnection(pcConfig);
             pc.onicecandidate = handleIceCandidate;
             pc.onaddstream = handleRemoteStreamAdded;
             pc.onremovestream = handleRemoteStreamRemoved;
@@ -80,7 +80,7 @@ window.onload = function() {
     function doCall() {
         console.log('>>>> doCall');
         console.log('>>>> Sending offer to peer');
-        pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
+        pc.createOffer(setLocalAndSendMessage, handleCreateOfferError, sdpConstraints);
     }
 
     function setLocalAndSendMessage(sessionDescription) {
@@ -131,17 +131,14 @@ window.onload = function() {
     socket.on('message', function(message) {
         console.log('+++ CLIENT received a message:' + message.type + ' +++');
         
-        if (message.type === 'offer') { //Todo. remove
+        if (message.type === 'offer') { 
             if (!isStarted) {
                 start();
             }
             pc.setRemoteDescription(new RTCSessionDescription(message));
             doAnswer();
         } 
-        else if (message.type === 'answer') {
-            if (!isStarted) {
-                start();
-            }
+        else if (message.type === 'answer' && isStarted) { //Todo. remove
             pc.setRemoteDescription(new RTCSessionDescription(message));
         } 
         else if (message.type === 'candidate' && isStarted) {
