@@ -45,7 +45,7 @@ module.exports.init =  function (http) {
 				console.log('Client registration failed!');			
 			}
 
-			//io.sockets.in(device_id).emit('joining', device_id, socket.id);
+			io.sockets.in(device_id).emit('joining', device_id, socket.id);
 			socket.join(device_id);			
 			socket.emit('joined', device_id, socket.id);
 		});
