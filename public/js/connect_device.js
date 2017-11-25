@@ -138,7 +138,7 @@ window.onload = function() {
             pc.setRemoteDescription(new RTCSessionDescription(message));
             doAnswer();
         } 
-        else if (message.type === 'answer' && isStarted) {
+        else if (message.type === 'answer') {
             if (!isStarted) {
                 start();
             }
