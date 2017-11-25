@@ -150,7 +150,7 @@ window.onload = function() {
         });
     });
      
-    socket.on('joining', function(device_id, user_socket_id) {
+    socket.on('joining', function(device_id, client_socket_id) {
         console.log('Client wants to connect with the divice, ID: ' + device_id);
         console.log('Client socket ID: ' + client_socket_id);
         isChannelReady = true;
