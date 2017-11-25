@@ -129,9 +129,9 @@ window.onload = function() {
     });
 
     socket.on('message', function(message) {
-        console.log('+++ CLIENT received a message:' + message + ' +++');
+        console.log('+++ CLIENT received a message:' + message.type + ' +++');
         
-        if (message.type === 'offer') { 
+        if (message.type === 'offer') { //Todo. remove
             if (!isStarted) {
                 start();
             }
@@ -139,6 +139,9 @@ window.onload = function() {
             doAnswer();
         } 
         else if (message.type === 'answer' && isStarted) {
+            if (!isStarted) {
+                start();
+            }
             pc.setRemoteDescription(new RTCSessionDescription(message));
         } 
         else if (message.type === 'candidate' && isStarted) {

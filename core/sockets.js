@@ -39,7 +39,6 @@ module.exports.init =  function (http) {
 			if (routing_data[device_id] !== undefined) {
 				console.log('Client is registrated succesfully!');			
 				routing_data[device_id].client = socket;
-				//routing_data[device_id].device.emit('joining', device_id, socket.id);				
 			}
 			else {
 				console.log('Client registration failed!');			

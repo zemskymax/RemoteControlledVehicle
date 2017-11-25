@@ -53,7 +53,7 @@ window.onload = function() {
             pc.addStream(localStream);
             isStarted = true;
 
-            doCall();
+            //doCall();
         }
     };
 
@@ -161,7 +161,7 @@ window.onload = function() {
     });
 
     socket.on('message', function(message) {
-        console.log('+++ HOST received a message:' + message + ' +++');
+        console.log('+++ HOST received a message:' + message.type + ' +++');
 
         if (message.type === 'offer') {
             if (!isStarted) {
@@ -170,7 +170,7 @@ window.onload = function() {
             pc.setRemoteDescription(new RTCSessionDescription(message));
             doAnswer(); 
         } 
-        else if (message.type === 'answer' && isStarted) {
+        else if (message.type === 'answer' && isStarted) { //TODO. remove
             pc.setRemoteDescription(new RTCSessionDescription(message));
         } 
         else if (message.type === 'candidate' && isStarted) {
