@@ -33,9 +33,8 @@ window.onload = function() {
         localVideo.src = window.URL.createObjectURL(stream);
         localStream = stream;
         
-        sendMessage('media_ready');
-
-        start();
+        console.log('Set device status to ready, id: ' + device_id);
+        socket.emit('ready', device_id);
     };
 
     var constraints = {

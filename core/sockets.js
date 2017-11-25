@@ -9,6 +9,7 @@ module.exports.init =  function (http) {
 		var socket_id = socket.id;
 		console.log("socket is connected, id: ", socket_id);
 		
+		//***HOST functions***//
 		socket.on('create', function(device_id) {
 			console.log('REQUEST - create the device, id: ' + device_id);
 
@@ -23,6 +24,14 @@ module.exports.init =  function (http) {
 			socket.emit('created', device_id, socket.id);
 		});
 
+		socket.on('ready', function(device_id) {
+			console.log('REQUEST - media is ready, id: ' + device_id);
+
+			//TODO. SET THE DEVICE STATUS TO ACTIVE
+		});
+		//***----------------***//
+
+		//***CLIENT functions***//
 		socket.on('join', function(device_id) {
 			console.log('REQUEST - join the device, id: ' + device_id);
 			
@@ -39,7 +48,9 @@ module.exports.init =  function (http) {
 			socket.join(device_id);			
 			socket.emit('joined', device_id, socket.id);
 		});
+		//***----------------***//
 
+		//***GENERAL functions***//
 		socket.on('message', function(device_id, sender_type, message) {
 
 			var msg = '';
@@ -49,6 +60,7 @@ module.exports.init =  function (http) {
 			else {
 				msg = message;
 			}
+
 			console.log('-->message received: ' + msg + '<--');
 			console.log('-->the device is: ' + device_id + '<--');
 			console.log('-->the sender type is: ' + sender_type + '<--');
@@ -84,15 +96,14 @@ module.exports.init =  function (http) {
 			//devices.pop();			
 		});
 		
-		socket.on('greeting', function (msg) {
+		socket.on('shutdown', function (msg) {
 			console.log('SERVER - greeting message: ', msg);
 			//socket.emit('greeting', 'SERVER - back to you');
 			if (devices.length > 0) {
 				devices[devices.length-1].emit('greeting', 'SERVER - back to you');
 			}
 		});
-		
-		//socket.emit('greeting', 'SERVER - good evening');
+		//***----------------***//
     });
 }
 
