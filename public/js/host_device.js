@@ -22,24 +22,10 @@ var sdpConstraints = {
 
 var socket = io('drone-controller.herokuapp.com');
 
-function sendMessage(message) {
-    console.log('*** HOST sending message: ' + message + ' ***');
-    socket.emit('message', device_id, sender_type, message);
-};
-
 window.onload = function() {
     
     var localVideo = document.querySelector('#local_video');
     
-    navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: true
-    })
-    .then(mediaReady)
-    .catch(function(e) {
-        alert('getUserMedia() error: ' + e.name);
-    });
-
     function mediaReady(stream) {
         console.log('>> mediaReady ');
 
@@ -49,15 +35,15 @@ window.onload = function() {
         
         sendMessage('media_ready');
 
-        maybeStart();
+        start();
     };
 
     var constraints = {
         video: true
     };
 
-    function maybeStart() {
-        console.log('>>> maybeStart ', isStarted, localStream, isChannelReady);
+    function start() {
+        console.log('>>> start ', isStarted, localStream, isChannelReady);
 
         if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
             console.log('>>> creating peer connection');
@@ -151,6 +137,15 @@ window.onload = function() {
     socket.on('created', function(device_id, device_socket_id) {
         console.log('Device id: ' + device_id + ' created successfully!');
         console.log('Device socket ID: ' + device_socket_id);
+
+        navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: true
+        })
+        .then(mediaReady)
+        .catch(function(e) {
+            alert('getUserMedia() error: ' + e.name);
+        });
     });
      
     socket.on('joining', function(device_id, user_socket_id) {
@@ -168,7 +163,7 @@ window.onload = function() {
 
         if (message.type === 'offer') {
             if (!isStarted) {
-                maybeStart();
+                start();
             }
             pc.setRemoteDescription(new RTCSessionDescription(message));
             doAnswer(); 
@@ -198,8 +193,15 @@ window.onload = function() {
         pc.close();
         pc = null;
     }
+
+    function sendMessage(message) {
+        console.log('*** HOST sending message: ' + message + ' ***');
+        socket.emit('message', device_id, sender_type, message);
+    };
 };
 
 window.onbeforeunload = function() {
-    sendMessage('bye');
+    var message = 'bye';
+    console.log('*** HOST sending message: ' + message + ' ***');
+    socket.emit('message', device_id, sender_type, message);
 };

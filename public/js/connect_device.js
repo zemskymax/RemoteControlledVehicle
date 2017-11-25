@@ -20,17 +20,12 @@ var sdpConstraints = {
 
 var socket = io('drone-controller.herokuapp.com');
 
-function sendMessage(message) {
-    console.log('*** CLIENT sending message: ' + message + ' ***');
-    socket.emit('message', device_id, sender_type, message);
-};
-
 window.onload = function() {
     
     var remoteVideo = document.querySelector('#remote_video');
 
-    function maybeStart() {
-        console.log('>>> maybeStart. isStarted: ', isStarted);
+    function start() {
+        console.log('>>> start. isStarted: ', isStarted);
 
         if (!isStarted) {
             console.log('>>> creating peer connection');
@@ -51,7 +46,6 @@ window.onload = function() {
             console.log('>>>> RTCPeerConnnection connection was created.');
         } catch (e) {
             console.log('>>>> Failed to create RTCPeerConnnection connection, exception: ' + e.message);
-            //alert('>>>> Cannot create RTCPeerConnection object.');
             return;
         }
     };
@@ -127,7 +121,7 @@ window.onload = function() {
         console.log('Device id: ' + device_id + ' joined succesfully!');
         console.log('Client socket ID: ' + client_socket_id);  
         
-        maybeStart();
+        start();
     });
 
     socket.on('ipaddr', function(ipaddr) {
@@ -136,13 +130,10 @@ window.onload = function() {
 
     socket.on('message', function(message) {
         console.log('+++ CLIENT received a message:' + message + ' +++');
-
-        if (message === 'media_ready') {
-            maybeStart();
-        } 
-        else if (message.type === 'offer') {
+        
+        if (message.type === 'offer') { 
             if (!isStarted) {
-                maybeStart();
+                start();
             }
             pc.setRemoteDescription(new RTCSessionDescription(message));
             doAnswer();
@@ -172,8 +163,15 @@ window.onload = function() {
         pc.close();
         pc = null;
     }
+
+    function sendMessage(message) {
+        console.log('*** CLIENT sending message: ' + message + ' ***');
+        socket.emit('message', device_id, sender_type, message);
+    };
 };
 
 window.onbeforeunload = function() {
-    sendMessage('bye');
+    var message = 'bye';
+    console.log('*** HOST sending message: ' + message + ' ***');
+    socket.emit('message', device_id, sender_type, message);
 };
